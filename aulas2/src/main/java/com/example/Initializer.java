@@ -1,10 +1,13 @@
 package com.example;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.example.entity.Role;
@@ -23,16 +26,10 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		
-		Role role = new Role();
+		/*Role role = new Role("Admin",StatusRoleEnum.ATIVO);
 		
-		role.setName("Admin");
-		role.setStatus(StatusRoleEnum.ATIVO);
-		
-		Role role2 = new Role();
-		role2.setStatus(StatusRoleEnum.INATIVO);
-		
-		role2.setName("Aluno");
-		
+		Role role2 = new Role("Aluno",StatusRoleEnum.INATIVO);
+				
 		this.roleRepository.save(role);
 		this.roleRepository.save(role2);
 		
@@ -54,7 +51,25 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		
 		List<Role> roles = this.roleRepository.findByStatus(StatusRoleEnum.ATIVO);
 		
+		roles.forEach(x -> System.out.println(x.getName()));*/
+		
+		for (int i = 0; i < 1000; i++) {
+			this.saveRole("Admin", StatusRoleEnum.ATIVO);
+		}
+		
+		for (int i = 0; i < 1000; i++) {
+			this.saveRole("asdasdas", StatusRoleEnum.INATIVO);
+		}
+		
+		Page<Role> roles = this.roleRepository.findAll(PageRequest.of(1,10));
+		
 		roles.forEach(x -> System.out.println(x.getName()));
 	}
 
+	
+	public void saveRole(String name, StatusRoleEnum status) {
+		Role role = new Role(name,status);
+		
+		this.roleRepository.save(role);
+	}
 }

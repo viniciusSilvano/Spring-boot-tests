@@ -1,9 +1,13 @@
 package com.example.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.example.StatusRoleEnum;
 
 @Entity
 public class Role {
@@ -12,6 +16,9 @@ public class Role {
 	private long id;
 	
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusRoleEnum status;
 
 	public long getId() {
 		return id;
@@ -28,6 +35,13 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	public StatusRoleEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusRoleEnum status) {
+		this.status = status;
+	}
+		
 }

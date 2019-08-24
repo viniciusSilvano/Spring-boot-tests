@@ -24,8 +24,10 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		Role role = new Role();
 		
 		role.setName("Admin");
+		role.setStatus(StatusRoleEnum.ATIVO);
 		
 		Role role2 = new Role();
+		role2.setStatus(StatusRoleEnum.INATIVO);
 		
 		role2.setName("Aluno");
 		

@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -49,6 +51,10 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		user2.setRole(role);
 		
 		this.userRepository.save(user2);
+		
+		List<Role> roles = this.roleRepository.findByStatus(StatusRoleEnum.ATIVO);
+		
+		roles.forEach(x -> System.out.println(x.getName()));
 	}
 
 }

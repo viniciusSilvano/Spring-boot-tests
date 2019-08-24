@@ -1,11 +1,16 @@
 package com.example.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.example.StatusRoleEnum;
 
@@ -20,16 +25,21 @@ public class Role {
 	@Enumerated(EnumType.STRING)
 	private StatusRoleEnum status;
 	
+	//Não é bom usar eager em aplicações reais, pois traz todos os dados
+	// relacionados. É melhor usar o repository para fazer isso
+	@OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+	private List<Functionality> functionalities;
 	
 	
 	public Role() {
 		super();
 	}
 
-	public Role(String name, StatusRoleEnum status) {
+	public Role(String name, StatusRoleEnum status, List<Functionality> functionalities) {
 		super();
 		this.name = name;
 		this.status = status;
+		this.functionalities = functionalities;
 	}
 
 	public long getId() {
@@ -55,5 +65,14 @@ public class Role {
 	public void setStatus(StatusRoleEnum status) {
 		this.status = status;
 	}
+
+	public List<Functionality> getFunctionalities() {
+		return functionalities;
+	}
+
+	public void setFunctionalities(List<Functionality> functionalities) {
+		this.functionalities = functionalities;
+	}
 		
+	
 }

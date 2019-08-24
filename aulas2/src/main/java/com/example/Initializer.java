@@ -1,24 +1,23 @@
 package com.example;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.stereotype.Component;
 
+import com.example.entity.Functionality;
 import com.example.entity.Role;
 import com.example.entity.User;
-import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 
 @Component
 public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
-	@Autowired
-	private RoleRepository roleRepository;
+	/*@Autowired
+	private RoleRepository roleRepository;*/
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -53,7 +52,7 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		
 		roles.forEach(x -> System.out.println(x.getName()));*/
 		
-		for (int i = 0; i < 1000; i++) {
+		/*for (int i = 0; i < 1000; i++) {
 			this.saveRole("Admin", StatusRoleEnum.ATIVO);
 		}
 		
@@ -64,12 +63,57 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		Page<Role> roles = this.roleRepository.findAll(PageRequest.of(1,10));
 		
 		roles.forEach(x -> System.out.println(x.getName()));
+		*/
+		
+		/*Role role = new Role("Admin",StatusRoleEnum.ATIVO);
+		
+		this.roleRepository.save(role);
+		
+		User user = new User();
+		
+		user.setName("Nataniel");
+		user.setEmail("nataniel.paiva@gmail.com");
+		
+		this.userRepository.save(user);*/
+		
+		Functionality functionality = new Functionality();
+		functionality.setName("Add");
+		
+		Functionality functionality2 = new Functionality();
+		functionality2.setName("Delete");
+		
+		
+		
+		Role role = new Role("Admin",StatusRoleEnum.ATIVO,Arrays.asList(functionality));
+		Role role3 = new Role("Aluno",StatusRoleEnum.ATIVO,Arrays.asList(functionality2));
+		
+		User user = new User();
+		
+		user.setName("Nataniel");
+		user.setEmail("nataniel.paiva@gmail.com");
+		user.setRoles(Arrays.asList(role,role3));
+		
+		this.userRepository.save(user);
+		
+		List<User> userR = this.userRepository.findAll();
+		userR.forEach(
+				x -> {
+					System.out.println("Roles:");
+					x.getRoles().forEach(
+							y -> {
+								y.getFunctionalities().forEach(
+										z -> z.getName()
+								);
+							}
+							);
+					}
+		);
 	}
 
 	
-	public void saveRole(String name, StatusRoleEnum status) {
+	/*public void saveRole(String name, StatusRoleEnum status) {
 		Role role = new Role(name,status);
 		
 		this.roleRepository.save(role);
-	}
+	}*/
 }

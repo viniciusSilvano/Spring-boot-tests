@@ -95,10 +95,18 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 		
 		this.userRepository.save(user);
 		
+		User user2 = new User();
+		
+		user2.setName("João");
+		user2.setEmail("Joao@gmail.com");
+		
+				
 		List<User> userR = this.userRepository.findAll();
+		
 		userR.forEach(
 				x -> {
 					System.out.println("Roles:");
+					
 					x.getRoles().forEach(
 							y -> {
 								y.getFunctionalities().forEach(
@@ -108,6 +116,10 @@ public class Initializer implements ApplicationListener<ContextRefreshedEvent> {
 							);
 					}
 		);
+		System.out.println();
+		User result = this.userRepository.findByName("nata");
+		
+		System.out.println(result.getName());
 	}
 
 	
